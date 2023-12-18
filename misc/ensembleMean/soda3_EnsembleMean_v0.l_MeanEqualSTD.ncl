@@ -1,0 +1,152 @@
+; load "$NCARG_ROOT/lib/ncarg/nclscripts/csm/gsn_code.ncl"
+; load "$NCARG_ROOT/lib/ncarg/nclscripts/csm/gsn_csm.ncl" 
+; load "$NCARG_ROOT/lib/ncarg/nclscripts/csm/contributed.ncl"
+
+
+begin
+    DIR_ROOT_SODA    = "/aosc/greenland"
+    DIR_EM_SODA      = "/aosc/greenland/cera20c_runs/soda3"
+    DIR_EM_SODA_TEMP = "/aosc/greenland/cera20c_runs/soda3/temp"
+
+    str_cdo         = "cdo selname,temp,salt,wt,ssh,mlt,mlp,mls,hflux_total,prho,u,v,taux,tauy "
+    str_cdo_ensmean = "cdo ensmean " + DIR_EM_SODA_TEMP + "/temp332.nc " + DIR_EM_SODA_TEMP + "/temp342.nc "    \
+                    + DIR_EM_SODA_TEMP + "/temp361.nc " + DIR_EM_SODA_TEMP + "/temp372.nc " + DIR_EM_SODA_TEMP  \ 
+                    + "/temp3112.nc " + DIR_EM_SODA_TEMP + "/temp3122.nc " + DIR_EM_SODA_TEMP + "/temp_mean.nc"
+    str_cdo_setpartabn = "cdo setpartabn," + DIR_EM_SODA_TEMP + "/mean-partabn.txt,convert " + DIR_EM_SODA_TEMP  \
+                       + "/temp_mean.nc " + DIR_EM_SODA_TEMP + "/temp_mean_cor.nc"
+    str_cdo_ensstd1 = "cdo ensmean " + DIR_EM_SODA_TEMP + "/temp332.nc " + DIR_EM_SODA_TEMP + "/temp342.nc "    \
+                    + DIR_EM_SODA_TEMP + "/temp361.nc " + DIR_EM_SODA_TEMP + "/temp372.nc " + DIR_EM_SODA_TEMP  \
+                    + "/temp3112.nc " + DIR_EM_SODA_TEMP + "/temp3122.nc " + DIR_EM_SODA_TEMP + "/temp_std.nc"
+    str_cdo_setpartabn2 = "cdo setpartabn," + DIR_EM_SODA_TEMP + "/std-partabn.txt,convert " + DIR_EM_SODA_TEMP  \
+                        + "/temp_std.nc " + DIR_EM_SODA_TEMP + "/temp_std_cor.nc"
+    str_cdo_merge_pref  = "cdo merge " + DIR_EM_SODA_TEMP + "/temp_mean_cor.nc " + DIR_EM_SODA_TEMP + "/temp_std_cor.nc "  \
+                        + DIR_EM_SODA + "/REGRIDED/ocean/"
+    str_rm = "rm " + DIR_EM_SODA_TEMP + "/temp332.nc " + DIR_EM_SODA_TEMP + "/temp342.nc "    \
+           + DIR_EM_SODA_TEMP + "/temp361.nc " + DIR_EM_SODA_TEMP + "/temp372.nc " + DIR_EM_SODA_TEMP   \ 
+           + "/temp3112.nc " + DIR_EM_SODA_TEMP + "/temp3122.nc "  \
+           + DIR_EM_SODA_TEMP + "/temp_mean.nc " + DIR_EM_SODA_TEMP + "/temp_mean_cor.nc " + DIR_EM_SODA_TEMP  \
+           + "/temp_std.nc " + DIR_EM_SODA_TEMP + "/temp_std_cor.nc"
+
+    fn_pre_332  = "soda3.3.2_5dy_ocean_reg_"
+    fn_pre_342  = "soda3.4.2_5dy_ocean_reg_"
+    fn_pre_361  = "soda3.6.1_5dy_ocean_reg_"
+    fn_pre_372  = "soda3.7.2_5dy_ocean_reg_"
+    fn_pre_3112 = "soda3.11.2_5dy_ocean_reg_"
+    fn_pre_3122 = "soda3.12.2_5dy_ocean_reg_"
+
+    ; six reanalysis for 19800101-20091224
+  ; jul_day_19800101 = greg2jul(1980, 1 , 1 , -1)
+    jul_day_19840728 = greg2jul(1984, 7 , 28, -1)
+    jul_day_20091224 = greg2jul(2009, 12, 24, -1)
+
+    i_jul_day = jul_day_19840728
+
+    do while (i_jul_day .le. jul_day_20091224)
+        greg  = jul2greg(i_jul_day)
+        i_yr  = greg(0)
+        i_mon = greg(1)
+        i_day = greg(2)
+
+        str_curr_cycle = sprinti("%0.4i", i_yr) + sprinti("%0.2i", i_mon) + sprinti("%0.2i", i_day)
+        print("str_curr_cycle = " + str_curr_cycle)
+
+
+        ; ocean
+        greg  = jul2greg(i_jul_day + 2)
+        i_yr  = greg(0)
+        i_mon = greg(1)
+        i_day = greg(2)
+        str_fn_cycle = sprinti("%0.4i", i_yr) + "_" + sprinti("%0.2i", i_mon) + "_" + sprinti("%0.2i", i_day)
+
+        fn_332  = fn_pre_332  + str_fn_cycle + ".nc"
+        fn_342  = fn_pre_342  + str_fn_cycle + ".nc"
+        fn_361  = fn_pre_361  + str_fn_cycle + ".nc"
+        fn_372  = fn_pre_372  + str_fn_cycle + ".nc"
+        fn_3112 = fn_pre_3112 + str_fn_cycle + ".nc"
+        fn_3122 = fn_pre_3122 + str_fn_cycle + ".nc"
+        str_cmd = str_cdo + DIR_ROOT_SODA + "/soda3.3.2/REGRIDED/ocean/" + fn_332   + " " + DIR_EM_SODA_TEMP + "/temp332.nc"
+        system(str_cmd)
+        str_cmd = str_cdo + DIR_ROOT_SODA + "/soda3.4.2/REGRIDED/ocean/" + fn_342   + " " + DIR_EM_SODA_TEMP + "/temp342.nc"
+        system(str_cmd)
+        str_cmd = str_cdo + DIR_ROOT_SODA + "/soda3.6.1/REGRIDED/ocean/" + fn_361   + " " + DIR_EM_SODA_TEMP + "/temp361.nc"
+        system(str_cmd)
+        str_cmd = str_cdo + DIR_ROOT_SODA + "/soda3.7.2/REGRIDED/ocean/" + fn_372   + " " + DIR_EM_SODA_TEMP + "/temp372.nc"
+        system(str_cmd)
+        str_cmd = str_cdo + DIR_ROOT_SODA + "/soda3.11.2/REGRIDED/ocean/" + fn_3112 + " " + DIR_EM_SODA_TEMP + "/temp3112.nc"
+        system(str_cmd)
+        str_cmd = str_cdo + DIR_ROOT_SODA + "/soda3.12.2/REGRIDED/ocean/" + fn_3122 + " " + DIR_EM_SODA_TEMP + "/temp3122.nc"
+        system(str_cmd)
+
+        ; compute the ensemble mean
+        system(str_cdo_ensmean)
+
+        ; fix the parameter table (including names)
+        system(str_cdo_setpartabn)
+
+        ; compute the ensemble standard deviation
+        system(str_cdo_ensstd1)
+
+        ; fix the parameter table (including names)
+        system(str_cdo_setpartabn2)
+        
+        ; merge the files
+        fn_soda3 = "soda3_5dy_ocean_reg_" + str_fn_cycle + ".nc"
+        str_cdo_merge = str_cdo_merge_pref + fn_soda3
+        system(str_cdo_merge)
+
+        ; cleanup the temporary files
+        system(str_rm)
+
+
+
+
+        greg  = jul2greg(i_jul_day + 7)
+        i_yr  = greg(0)
+        i_mon = greg(1)
+        i_day = greg(2)
+        str_fn_cycle = sprinti("%0.4i", i_yr) + "_" + sprinti("%0.2i", i_mon) + "_" + sprinti("%0.2i", i_day)
+
+        fn_332  = fn_pre_332  + str_fn_cycle + ".nc"
+        fn_342  = fn_pre_342  + str_fn_cycle + ".nc"
+        fn_361  = fn_pre_361  + str_fn_cycle + ".nc"
+        fn_372  = fn_pre_372  + str_fn_cycle + ".nc"
+        fn_3112 = fn_pre_3112 + str_fn_cycle + ".nc"
+        fn_3122 = fn_pre_3122 + str_fn_cycle + ".nc"
+        str_cmd = str_cdo + DIR_ROOT_SODA + "/soda3.3.2/REGRIDED/ocean/" + fn_332   + " " + DIR_EM_SODA_TEMP + "/temp332.nc"
+        system(str_cmd)
+        str_cmd = str_cdo + DIR_ROOT_SODA + "/soda3.4.2/REGRIDED/ocean/" + fn_342   + " " + DIR_EM_SODA_TEMP + "/temp342.nc"
+        system(str_cmd)
+        str_cmd = str_cdo + DIR_ROOT_SODA + "/soda3.6.1/REGRIDED/ocean/" + fn_361   + " " + DIR_EM_SODA_TEMP + "/temp361.nc"
+        system(str_cmd)
+        str_cmd = str_cdo + DIR_ROOT_SODA + "/soda3.7.2/REGRIDED/ocean/" + fn_372   + " " + DIR_EM_SODA_TEMP + "/temp372.nc"
+        system(str_cmd)
+        str_cmd = str_cdo + DIR_ROOT_SODA + "/soda3.11.2/REGRIDED/ocean/" + fn_3112 + " " + DIR_EM_SODA_TEMP + "/temp3112.nc"
+        system(str_cmd)
+        str_cmd = str_cdo + DIR_ROOT_SODA + "/soda3.12.2/REGRIDED/ocean/" + fn_3122 + " " + DIR_EM_SODA_TEMP + "/temp3122.nc"
+        system(str_cmd)
+
+        ; compute the ensemble mean
+        system(str_cdo_ensmean)
+
+        ; fix the parameter table (including names)
+        system(str_cdo_setpartabn)
+
+        ; compute the ensemble standard deviation
+        system(str_cdo_ensstd1)
+
+        ; fix the parameter table (including names)
+        system(str_cdo_setpartabn2)
+        
+        ; merge the files
+        fn_soda3 = "soda3_5dy_ocean_reg_" + str_fn_cycle + ".nc"
+        str_cdo_merge = str_cdo_merge_pref + fn_soda3
+        system(str_cdo_merge)
+        
+        ; cleanup the temporary files
+        system(str_rm)
+
+
+        i_jul_day = i_jul_day + 10
+    end do  ; end of "do while (i_jul_day .le. jul_day_19811216)"
+
+end

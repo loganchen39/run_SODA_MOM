@@ -1,0 +1,44 @@
+   ; ; monthly and JJA
+    ; do i_yr = 0, N_YEAR - 1
+    ;     do i_mon = 6, 8
+    ;         print("Computing monthly NLDAS-2 NOAH soil moisture, i_mon = " + i_mon)
+    ;         str_cmd = "ls " + DIR_ROOT_NLDAS + "/" + DIR_NLDAS(i_yr) + "/NLDAS2_NOAH2CWRF_US." + DIR_NLDAS(i_yr)   \
+    ;             + sprinti("%0.2i", i_mon) + "*.nc"
+    ;         print("str_cmd = " + str_cmd)
+    ;         fn_lst_nc = systemfunc(str_cmd)
+    ;         print("n_flle = " + dimsizes(fn_lst_nc))
+    ;         print("Running addfiles ...")
+    ;         fl_lst_nc = addfiles(fn_lst_nc, "r")
+    ;         ListSetType(fl_lst_nc, "cat")
+    ;         nldas_sm = fl_lst_nc[:]->SOILM  ; nldas_sm(time|1*30*4, lev|4, y|138, x|195)
+    ;         obs_mly(i_yr, 2, i_mon-6, :, :) = dim_avg_n(nldas_sm(:, 0, :, :), 0)  ; SM_0.1m
+    ;         obs_mly(i_yr, 3, i_mon-6, :, :) = obs_mly(i_yr, 2, i_mon-6, :, :) + dim_avg_n(nldas_sm(:, 1, :, :), 0)  \
+    ;             + dim_avg_n(nldas_sm(:, 2, :, :), 0)  ; SM_1.0m
+    ;         obs_mly(i_yr, 4, i_mon-6, :, :) = obs_mly(i_yr, 3, i_mon-6, :, :) + dim_avg_n(nldas_sm(:, 3, :, :), 0)  ; SM_2.0m
+    ;         delete(fn_lst_nc)
+    ;         delete(fl_lst_nc)
+    ;         delete(nldas_sm)
+    ;     end do
+
+
+
+
+    ;     do i_mon = 6, 8
+    ;         print("Computing monthly NLDAS-2 NOAH soil moisture, i_mon = " + i_mon)
+    ;         str_cmd = "ls " + DIR_ROOT_NLDAS + "/" + DIR_NLDAS(i_yr) + "/NLDAS2_NOAH2CWRF_US." + DIR_NLDAS(i_yr)   \
+    ;             + sprinti("%0.2i", i_mon) + "*.nc"
+    ;         print("str_cmd = " + str_cmd)
+    ;         fn_lst_nc = systemfunc(str_cmd)
+    ;         print("n_flle = " + dimsizes(fn_lst_nc))
+    ;         print("Running addfiles ...")
+    ;         fl_lst_nc = addfiles(fn_lst_nc, "r")
+    ;         ListSetType(fl_lst_nc, "cat")
+    ;         nldas_sm = fl_lst_nc[:]->SOILM  ; nldas_sm(time|1*30*4, lev|4, y|138, x|195)
+    ;         obs_mly(i_yr, 2, i_mon-6, :, :) = dim_avg_n(nldas_sm(:, 0, :, :), 0)  ; SM_0.1m
+    ;         obs_mly(i_yr, 3, i_mon-6, :, :) = obs_mly(i_yr, 2, i_mon-6, :, :) + dim_avg_n(nldas_sm(:, 1, :, :), 0)  \
+    ;             + dim_avg_n(nldas_sm(:, 2, :, :), 0)  ; SM_1.0m
+    ;         obs_mly(i_yr, 4, i_mon-6, :, :) = obs_mly(i_yr, 3, i_mon-6, :, :) + dim_avg_n(nldas_sm(:, 3, :, :), 0)  ; SM_2.0m
+    ;         delete(fn_lst_nc)
+    ;         delete(fl_lst_nc)
+    ;         delete(nldas_sm)
+    ;     end do

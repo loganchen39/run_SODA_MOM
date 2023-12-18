@@ -1,0 +1,94 @@
+&parameter
+  name = _default_
+  datatype = F32
+/
+&parameter
+  name = temp
+  standard_name = sea_water_potential_temperature
+  long_name = "Potential temperature"
+  units = "degree_C"
+  chunktype = grid
+/
+&parameter
+  name = salt
+  standard_name = sea_water_practical_salinity
+  long_name = "Practical Salinity"
+  units = "psu"
+  chunktype = grid
+/
+&parameter
+  name = wt
+  long_name = "dia-surface velocity T-points"
+  units = "m/sec"
+  chunktype = grid
+/
+&parameter
+  name = ssh
+  standard_name = sea_surface_height_above_geoid
+  long_name = "effective sea level (eta_t + patm/(rho0*g)) on T cells"
+  units = "meter"
+  chunktype = grid
+/
+&parameter
+  name = mlt
+  standard_name = ocean_mixed_layer_thickness_defined_by_temperature
+  long_name = "ocean_mixed_layer_thickness_defined_by_temperature"
+  units = "m"
+  chunktype = grid
+/
+&parameter
+  name = mlp
+  standard_name = ocean_mixed_layer_thickness_defined_by_sigma_theta
+  long_name = "ocean_mixed_layer_thickness_defined_by_sigma_theta"
+  units = "m"
+  chunktype = grid
+/
+&parameter
+  name = mls
+  long_name = "mixed layer thickness defined by salinity"
+  units = "m"
+  chunktype = grid
+/
+&parameter
+  name = hflux_total
+  standard_name = surface_downward_heat_flux_in_sea_water
+  long_name = "surface heat flux from coupler plus restore (omits mass transfer heating)"
+  units = "Watts/m^2"
+  chunktype = grid
+/
+&parameter
+  name = prho
+  standard_name = sea_water_potential_density
+  long_name = "potential density referenced to 0 dbar"
+  units = "kg/m^3"
+  chunktype = grid
+/
+&parameter
+  name = u
+  standard_name = sea_water_x_velocity
+  long_name = "zonal current"
+  units = "m/sec"
+  chunktype = grid
+/
+&parameter
+  name = v
+  standard_name = sea_water_y_velocity
+  long_name = "meridional current"
+  units = "m/sec"
+  chunktype = grid
+/
+&parameter
+  name = taux
+  standard_name = surface_downward_x_stress
+  long_name = "zonally directed wind stress"
+  units = "N/m^2"
+  chunktype = grid
+/
+&parameter
+  name = tauy
+  standard_name = surface_downward_y_stress
+  long_name = "meridonally directed wind stress"
+  units = "N/m^2"
+  chunktype = grid
+/
+

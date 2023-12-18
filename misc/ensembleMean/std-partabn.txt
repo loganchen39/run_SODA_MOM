@@ -1,0 +1,96 @@
+&parameter
+  name = _default_
+  datatype = F32
+/
+&parameter
+  name = temp
+  out_name = t_std
+  long_name = "Potential temperature ensemble STD"
+  units = "degree_C"
+  chunktype = grid
+/
+&parameter
+  name = salt
+  out_name = s_std
+  long_name = "Practical salinity ensemble STD"
+  units = "psu"
+  chunktype = grid
+/
+&parameter
+  name = wt
+  out_name = wt_std
+  long_name = "dia-surface velocity T-points ensemble STD"
+  units = "m/sec"
+  chunktype = grid
+/
+&parameter
+  name = ssh
+  out_name = ssh_std
+  long_name = "effective sea level (eta_t + patm/(rho0*g)) on T cells ensemble STD"
+  units = "m"
+  chunktype = grid
+/
+&parameter
+  name = mlt
+  out_name = mlt_std
+  long_name = "ocean_mixed_layer_thickness_defined_by_temperature ensemble STD"
+  units = "m"
+  chunktype = grid
+/
+&parameter
+  name = mlp
+  out_name = mlp_std
+  long_name = "ocean_mixed_layer_thickness_defined_by_sigma_theta ensemble STD"
+  units = "m"
+  chunktype = grid
+/
+&parameter
+  name = mls
+  out_name = mls_std
+  long_name = "mixed layer thickness defined by salinity ensemble STD"
+  units = "m"
+  chunktype = grid
+/
+&parameter
+  name = hflux_total
+  out_name = hflux_total_std
+  long_name = "surface heat flux from coupler plus restore (omits mass transfer heating) ensemble STD"
+  units = "Watts/m^2"
+  chunktype = grid
+/
+&parameter
+  name = prho
+  out_name = prho_std
+  long_name = "potential density referenced to 0 dbar ensemble STD"
+  units = "kg/m^3"
+  chunktype = grid
+/
+&parameter
+  name = u
+  out_name = u_std
+  long_name = "zonal current ensemble STD"
+  units = "m/sec"
+  chunktype = grid
+/
+&parameter
+  name = v
+  out_name = v_std
+  long_name = "meridional current ensemble STD"
+  units = "m/sec"
+  chunktype = grid
+/
+&parameter
+  name = taux
+  out_name = taux_std
+  long_name = "zonally directed wind stress ensemble STD"
+  units = "N/m^2"
+  chunktype = grid
+/
+&parameter
+  name = tauy
+  out_name = tauy_std
+  long_name = "meridonally directed wind stress ensemble STD"
+  units = "N/m^2"
+  chunktype = grid
+/
+

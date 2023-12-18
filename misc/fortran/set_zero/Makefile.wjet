@@ -1,0 +1,26 @@
+PROG = nc2nc.exe
+
+SRCS = nc2nc.f90
+
+OBJS = nc2nc.o
+
+LIBS = /opt/netcdf/3.6.1-intel-9.1/lib/libnetcdf.a
+
+F90      = ifort
+F90FLAGS = -O 
+LDFLAGS  = -static
+
+all: $(PROG)
+
+$(PROG): $(OBJS)
+	$(F90) $(LDFLAGS) -o $@ $(OBJS) $(LIBS)
+
+clean:
+	rm -f $(PROG) $(OBJS) *.mod
+
+.SUFFIXES: $(SUFFIXES) .f90 .o
+
+.f90.o:
+	$(F90) $(F90FLAGS) -c -free $<
+
+# DEPENDENCIES : only dependencies after this line (don't remove the word DEPENDENCIES)
